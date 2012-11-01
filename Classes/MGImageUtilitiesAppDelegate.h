@@ -16,11 +16,11 @@
 	UISwitch *tintSwitch;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UIImageView *originalView;
-@property (nonatomic, retain) IBOutlet UIImageView *resultView;
-@property (nonatomic, retain) IBOutlet UISegmentedControl *methodControl;
-@property (nonatomic, retain) IBOutlet UISwitch *tintSwitch;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet UIImageView *originalView;
+@property (nonatomic, strong) IBOutlet UIImageView *resultView;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *methodControl;
+@property (nonatomic, strong) IBOutlet UISwitch *tintSwitch;
 
 - (IBAction)methodChanged:(id)sender;
 - (IBAction)tintChanged:(id)sender;
