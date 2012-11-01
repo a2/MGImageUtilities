@@ -55,7 +55,7 @@
 - (void)updateResult
 {
 	UIImage *oldImage = originalView.image;
-	UIImage *newImage;
+	UIImage *newImage  = nil;
 	CGSize newSize = resultView.frame.size;
 	
 	// Resize the image using the user's chosen method.
