@@ -7,31 +7,30 @@
 
 #import "UIImage+Tint.h"
 
+extern void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale) WEAK_IMPORT_ATTRIBUTE;
 
 @implementation UIImage (MGTint)
-
 
 - (UIImage *)imageTintedWithColor:(UIColor *)color
 {
 	// This method is designed for use with template images, i.e. solid-coloured mask-like images.
 	return [self imageTintedWithColor:color fraction:0.0]; // default to a fully tinted mask of the image.
 }
-
-
 - (UIImage *)imageTintedWithColor:(UIColor *)color fraction:(CGFloat)fraction
 {
 	if (color) {
 		// Construct new image the same size as this one.
 		UIImage *image;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
-		if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 4.0) {
+		if (&UIGraphicsBeginImageContextWithOptions != NULL) {
 			UIGraphicsBeginImageContextWithOptions([self size], NO, 0.0); // 0.0 for scale means "scale for device's main screen".
 		}
-#else
-		if ([[[UIDevice currentDevice] systemVersion] floatValue] < 4.0) {
+		else
+#endif
+		{
 			UIGraphicsBeginImageContext([self size]);
 		}
-#endif
+		
 		CGRect rect = CGRectZero;
 		rect.size = [self size];
 		
@@ -56,7 +55,5 @@
 	
 	return self;
 }
-
-
 
 @end

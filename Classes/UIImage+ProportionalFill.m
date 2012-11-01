@@ -7,9 +7,9 @@
 
 #import "UIImage+ProportionalFill.h"
 
+extern void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale) WEAK_IMPORT_ATTRIBUTE;
 
 @implementation UIImage (MGProportionalFill)
-
 
 - (UIImage *)imageToFitSize:(CGSize)fitSize method:(MGImageResizingMethod)resizeMethod
 {
@@ -90,7 +90,8 @@
     // Create appropriately modified image.
 	UIImage *image = nil;
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
-	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 4.0) {
+	if (&UIGraphicsBeginImageContextWithOptions != NULL)
+	{
 		UIGraphicsBeginImageContextWithOptions(destRect.size, NO, 0.0); // 0.0 for scale means "correct scale for device's main screen".
 		CGImageRef sourceImg = CGImageCreateWithImageInRect([self CGImage], sourceRect); // cropping happens here.
 		image = [UIImage imageWithCGImage:sourceImg scale:0.0 orientation:self.imageOrientation]; // create cropped UIImage.
@@ -99,8 +100,9 @@
 		image = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
 	}
+	else
 #endif
-	if (!image) {
+	{
 		// Try older method.
 		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
 		CGContextRef context = CGBitmapContextCreate(NULL, fitSize.width, fitSize.height, 8, (fitSize.width * 4), 
