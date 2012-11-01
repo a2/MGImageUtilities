@@ -13,12 +13,7 @@ extern void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGF
 
 - (UIImage *)imageToFitSize:(CGSize)fitSize method:(MGImageResizingMethod)resizeMethod
 {
-	float imageScaleFactor = 1.0;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
-	if ([self respondsToSelector:@selector(scale)]) {
-		imageScaleFactor = [self scale];
-	}
-#endif
+	float imageScaleFactor = [self scale];
 	
     float sourceWidth = [self size].width * imageScaleFactor;
     float sourceHeight = [self size].height * imageScaleFactor;
@@ -88,34 +83,13 @@ extern void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGF
     }
     
     // Create appropriately modified image.
-	UIImage *image = nil;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
-	if (&UIGraphicsBeginImageContextWithOptions != NULL)
-	{
-		UIGraphicsBeginImageContextWithOptions(destRect.size, NO, 0.0); // 0.0 for scale means "correct scale for device's main screen".
-		CGImageRef sourceImg = CGImageCreateWithImageInRect([self CGImage], sourceRect); // cropping happens here.
-		image = [UIImage imageWithCGImage:sourceImg scale:0.0 orientation:self.imageOrientation]; // create cropped UIImage.
-		[image drawInRect:destRect]; // the actual scaling happens here, and orientation is taken care of automatically.
-		CGImageRelease(sourceImg);
-		image = UIGraphicsGetImageFromCurrentImageContext();
-		UIGraphicsEndImageContext();
-	}
-	else
-#endif
-	{
-		// Try older method.
-		CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-		CGContextRef context = CGBitmapContextCreate(NULL, fitSize.width, fitSize.height, 8, (fitSize.width * 4), 
-													 colorSpace, kCGImageAlphaPremultipliedLast);
-		CGImageRef sourceImg = CGImageCreateWithImageInRect([self CGImage], sourceRect);
-		CGContextDrawImage(context, destRect, sourceImg);
-		CGImageRelease(sourceImg);
-		CGImageRef finalImage = CGBitmapContextCreateImage(context);	
-		CGContextRelease(context);
-		CGColorSpaceRelease(colorSpace);
-		image = [UIImage imageWithCGImage:finalImage];
-		CGImageRelease(finalImage);
-	}
+	UIGraphicsBeginImageContextWithOptions(destRect.size, NO, 0.0); // 0.0 for scale means "correct scale for device's main screen".
+	CGImageRef sourceImg = CGImageCreateWithImageInRect([self CGImage], sourceRect); // cropping happens here.
+	UIImage *image = [UIImage imageWithCGImage:sourceImg scale:0.0 orientation:self.imageOrientation]; // create cropped UIImage.
+	[image drawInRect:destRect]; // the actual scaling happens here, and orientation is taken care of automatically.
+	CGImageRelease(sourceImg);
+	image = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
 	
     return image;
 }

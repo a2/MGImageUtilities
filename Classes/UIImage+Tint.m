@@ -24,16 +24,7 @@ extern void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGF
 {
 	if (color) {
 		// Construct new image the same size as this one.
-		UIImage *image;
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
-		if (&UIGraphicsBeginImageContextWithOptions != NULL) {
-			UIGraphicsBeginImageContextWithOptions([self size], NO, 0.0); // 0.0 for scale means "scale for device's main screen".
-		}
-		else
-#endif
-		{
-			UIGraphicsBeginImageContext([self size]);
-		}
+		UIGraphicsBeginImageContextWithOptions([self size], NO, 0.0); // 0.0 for scale means "scale for device's main screen".
 		
 		CGRect rect = CGRectZero;
 		rect.size = [self size];
@@ -51,7 +42,7 @@ extern void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGF
 			// We want behaviour like NSCompositeSourceOver on Mac OS X.
 			[self drawInRect:rect blendMode:kCGBlendModeSourceAtop alpha:fraction];
 		}
-		image = UIGraphicsGetImageFromCurrentImageContext();
+		UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 		UIGraphicsEndImageContext();
 		
 		return image;
