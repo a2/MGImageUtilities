@@ -9,16 +9,16 @@
 
 @implementation UIImage (MGTint)
 
-- (UIImage *)imageTintedWithColor:(UIColor *)color
+- (UIImage *)mg_imageTintedWithColor:(UIColor *)color
 {
 	// This method is designed for use with template images, i.e. solid-coloured mask-like images.
-	return [self imageTintedWithColor:color fraction:0.0 blendMode:kCGBlendModeDestinationIn]; // default to a fully tinted mask of the image.
+	return [self mg_imageTintedWithColor:color fraction:0.0 blendMode:kCGBlendModeDestinationIn]; // default to a fully tinted mask of the image.
 }
-- (UIImage *)imageTintedWithColor:(UIColor *)color fraction:(CGFloat)fraction
+- (UIImage *)mg_imageTintedWithColor:(UIColor *)color fraction:(CGFloat)fraction
 {
-	return [self imageTintedWithColor:color fraction:fraction blendMode:kCGBlendModeDestinationIn];
+	return [self mg_imageTintedWithColor:color fraction:fraction blendMode:kCGBlendModeDestinationIn];
 }
-- (UIImage *)imageTintedWithColor:(UIColor *)color fraction:(CGFloat)fraction blendMode:(CGBlendMode)blendMode
+- (UIImage *)mg_imageTintedWithColor:(UIColor *)color fraction:(CGFloat)fraction blendMode:(CGBlendMode)blendMode
 {
 	if (color) {
 		// Construct new image the same size as this one.

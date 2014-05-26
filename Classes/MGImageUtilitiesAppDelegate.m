@@ -55,16 +55,16 @@
 	// Resize the image using the user's chosen method.
 	switch (methodControl.selectedSegmentIndex) {
 		case 0:
-			newImage = [oldImage imageScaledToFitSize:newSize]; // uses MGImageResizeScale
+			newImage = [oldImage mg_imageScaledToFitSize:newSize]; // uses MGImageResizeScale
 			break;
 		case 1:
-			newImage = [oldImage imageCroppedToFitSize:newSize]; // uses MGImageResizeCrop
+			newImage = [oldImage mg_imageCroppedToFitSize:newSize]; // uses MGImageResizeCrop
 			break;
 		case 2:
-			newImage = [oldImage imageToFitSize:newSize method:MGImageResizeCropStart];
+			newImage = [oldImage mg_imageToFitSize:newSize method:MGImageResizeCropStart];
 			break;
 		case 3:
-			newImage = [oldImage imageToFitSize:newSize method:MGImageResizeCropEnd];
+			newImage = [oldImage mg_imageToFitSize:newSize method:MGImageResizeCropEnd];
 			break;
 		default:
 			break;
@@ -72,7 +72,7 @@
 	
 	// If appropriate, tint the resulting image.
 	if (tintSwitch.on) {
-		newImage = [newImage imageTintedWithColor:[UIColor redColor]];
+		newImage = [newImage mg_imageTintedWithColor:[UIColor redColor]];
 	}
 	
 	resultView.image = newImage;
