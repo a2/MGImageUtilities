@@ -7,8 +7,6 @@
 
 #import "UIImage+ProportionalFill.h"
 
-extern void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale) WEAK_IMPORT_ATTRIBUTE;
-
 @implementation UIImage (MGProportionalFill)
 
 - (UIImage *)imageToFitSize:(CGSize)fitSize method:(MGImageResizingMethod)resizeMethod

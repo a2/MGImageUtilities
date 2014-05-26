@@ -7,8 +7,6 @@
 
 #import "UIImage+Tint.h"
 
-extern void UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale) WEAK_IMPORT_ATTRIBUTE;
-
 @implementation UIImage (MGTint)
 
 - (UIImage *)imageTintedWithColor:(UIColor *)color
